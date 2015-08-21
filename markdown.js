@@ -1,7 +1,9 @@
+var list = require('./loadTLD');
 var _ = _ || null;
 if ((typeof require != 'undefined') && !_) {
 	var _ = require('underscore');
 }
+
 
 var Markdown = function(raw, options) {
 	var options = options || {};
@@ -183,8 +185,10 @@ Markdown.is_in_url = function(full_match, text, offset, full_str, already_in_url
 	return false;
 };
 
-Markdown.url_regex = /^((ftp|https?):\/\/)?[-\w]+\.([-\w]+\.)*(\d+\.\d+\.\d+|[-A-Za-z]+)(:\d+)?($|(\/\S?(\/\S)*\/?)|(\#\S?)|(\?\S?))/i;
-Markdown.global_url_regex = /(([a-zA-Z0-9\!\#\$\%\&\'\*\+\-\/\=\?\%\_\`\{\|\}\~\.]+@)?)(((ftp|https?):\/\/)?[-\w]+\.([-\w]+\.)*(\d+\.\d+\.\d+|[-A-Za-z]+)(:\d+)?(((\/([A-Za-z0-9-\._~:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=])*)+)\??([A-Za-z0-9-\._~:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\%])*)?)([^A-Za-z]|$)/gi; 
+//Markdown.url_regex = RegExp("^((ftp|https?):\\/\\/)?[-\\w]+\\.([-\w]+\\.)*(\\d+\\.\\d+\\.\\d+("+list.string+")|[a-z][a-z]|\\d+)(:\\d+)?($|(\\/\S?(\\/\\S)*\\/?)|(\\#\\S?)|(\\?\\S?))","i");
+//Markdown.global_url_regex = RegExp("(([a-zA-Z0-9\\!\\#\\$\\%\\&\\'\\*\\+\\-\\/\\=\\?\\%\\_\\`\\{\\|\\}\\~\\.]+@)?)(((ftp|https?):\\/\\/)?[-\\w]+\.([-\\w]+\\.)*(\\d+\\.\\d+\\.\\d+("+list.string+")|[a-z][a-z]|\\d+)(:\\d+)?(((\\/([A-Za-z0-9-\\._~:\\/\\?\\#\\[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=])*)+)\\??([A-Za-z0-9-\\._~:\\/\\?\\#\\[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=\\%])*)?)([^A-Za-z]|$)","gi"); 
+ Markdown.url_regex = RegExp("^((ftp|https?):\\/\\/)?[-\\w]+\\.([-\w]+\\.)*(\\d+\\.\\d+\\.\\d+|"+list.string+"+)(:\\d+)?($|(\\/\\S?(\\/\\S)*\\/?)|(\\#\\S?)|(\\?\\S?))", 'i');
+Markdown.global_url_regex = RegExp("(([a-zA-Z0-9\\!\\#\\$\\%\\&\\'\\*\\+\\-\\/\\=\\?\\%\\_\\`\\{\\|\\}\\~\\.]+@)?)(((ftp|https?):\\/\\/)?[-\\w]+\\.([-\\w]+\\.)*(\\d+\\.\\d+\\.\\d+|"+list.string+"+)(:\\d+)?(((\\/([A-Za-z0-9-\\._~:\\/\\?\\#\\[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=])*)+)\\??([A-Za-z0-9-\\._~:\\/\\?\\#\\[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=\\%])*)?)([^A-Za-z]|$)", "gi") 
 
 var Markdown_For_Search = function(raw, options) {
 	options = options || {};
